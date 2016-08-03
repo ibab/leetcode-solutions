@@ -11,34 +11,35 @@ package main
 // and jump back to the position right after that letter occured previously.
 // The answer is the maximum size of the map throughout the iteration.
 func lengthOfLongestSubstring(s string) int {
-  answer := 0
-  seen := make(map[uint8]int)
-  i := 0
+	answer := 0
+	seen := make(map[uint8]int)
+	i := 0
 
-  for i < len(s) {
-    idx, ok := seen[s[i]];
+	for i < len(s) {
+		idx, ok := seen[s[i]]
 
-    if (ok) {
-      // Letter has been seen previously
-      if answer < len(seen) {
-        answer = len(seen)
-      }
-      seen = make(map[uint8]int)
-      i = idx + 1
-    }
+		if ok {
+			// Letter has been seen previously
+			if answer < len(seen) {
+				answer = len(seen)
+			}
+			seen = make(map[uint8]int)
+			i = idx + 1
+		}
 
-    seen[s[i]] = i
-    i++
-  }
+		seen[s[i]] = i
+		i++
+	}
 
-  if answer < len(seen) {
-    answer = len(seen)
-  }
+	if answer < len(seen) {
+		answer = len(seen)
+	}
 
-  return answer
+	return answer
 }
+
 // END
 
 func main() {
-  lengthOfLongestSubstring("abcabcbb");
+	lengthOfLongestSubstring("abcabcbb")
 }
