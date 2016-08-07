@@ -48,7 +48,6 @@ public:
         int idx = static_cast<unsigned int>(val) % size_;
         auto* vec = data_[idx];
         if (std::find(data_[idx]->begin(), data_[idx]->end(), val) != data_[idx]->end()) {
-            std::cout << "Found and removing" << std::endl;
             vec->erase(std::remove(vec->begin(), vec->end(), val), vec->end());
             return true;
         }
