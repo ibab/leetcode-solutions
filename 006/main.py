@@ -20,7 +20,7 @@ class Solution(object):
     # The idea to split the iteration into two loops:
     # The outer loop steps through possible offsets into the segment
     # The inner loop steps through segments
-    # Inside the inner loop, we add a neighbouring elements (read out in
+    # Inside the inner loop, we add neighbouring elements (read out in
     # reverse from the end of the segment) if we are not at the first or last
     # step of the outer iteration.
     def convert(self, s, numRows):
@@ -38,8 +38,12 @@ class Solution(object):
                 out += s[first]
                 second = blockSize + idx2 - idx1
                 if second >= len(s):
+                    # We're at the end of the pattern and
+                    # there are no more characters
                     break
                 if idx1 not in (0, numRows - 1):
+                    # We're not at the first or last element
+                    # of a segment, so there's a partner element
                     out += s[second]
 
         return out
