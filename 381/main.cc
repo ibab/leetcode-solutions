@@ -1,27 +1,14 @@
-// Problem 380 - Insert Delete GetRandom O(1)
-//
-// Design a data structure that supports all following operations in average O(1) time.
-// 
-// insert(val): Inserts an item val to the set if not already present.
-// remove(val): Removes an item val from the set if present.
-// getRandom: Returns a random element from current set of elements. Each
-//            element must have the same probability of being returned.
 
 #include <vector>
 #include <random>
 #include <iostream>
 
 // BEGIN
-// The idea is to use a hash table as the basis for the data structure.
-// When the getRandom method is called, we sample an index from the histogram
-// of vector lengths in the hash table.
-// If we pick an element in that vector at random, the overall probability to
-// pick an element will be uniform.
-// The runtime of the getRandom method is O(1), as we iterate over the fixed
-// length of the internal hash table storage.
-class RandomizedSet {
+// Same as RandomizedSet in 380, except that we always append, even if such an
+// element already exists, and that we only remove a single value
+class RandomizedCollection {
 public:
-    RandomizedSet()
+    RandomizedCollection()
      : size_(20),
        data_(std::vector<std::vector<int>*>(size_)) {
          for (int i = 0; i < data_.size(); i++) {
@@ -29,7 +16,7 @@ public:
          }
     }
 
-    ~RandomizedSet() {
+    ~RandomizedCollection() {
         for (int i = 0; i < data_.size(); i++) {
             delete data_[i];
         }
@@ -37,18 +24,19 @@ public:
 
     bool insert(int val) {
         int idx = static_cast<unsigned int>(val) % size_;
+        bool ret = true;
         if (std::find(data_[idx]->begin(), data_[idx]->end(), val) != data_[idx]->end()) {
-            return false;
+            ret = false;
         }
         data_[idx]->push_back(val);
-        return true;
+        return ret;
     }
 
     bool remove(int val) {
         int idx = static_cast<unsigned int>(val) % size_;
         auto* vec = data_[idx];
         if (std::find(data_[idx]->begin(), data_[idx]->end(), val) != data_[idx]->end()) {
-            vec->erase(std::remove(vec->begin(), vec->end(), val), vec->end());
+            vec->erase(std::find(vec->begin(), vec->end(), val));
             return true;
         }
         return false;
@@ -86,9 +74,15 @@ public:
 };
 // END
 
+
 int main() {
-    RandomizedSet rs;
+    RandomizedCollection rs;
     rs.insert(42);
+    rs.insert(122);
+    rs.insert(122);
+    rs.insert(122);
+    rs.insert(122);
+    rs.insert(122);
     rs.insert(122);
     rs.insert(0);
     rs.insert(-42);
