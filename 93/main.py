@@ -19,7 +19,7 @@ class Solution(object):
             yield "{}.{}.{}.{}".format(a, b, c, d)
 
   def restoreIpAddresses(self, s):
-      return list(self._generate(s))
+    return list(self._generate(s))
 
 if __name__ == '__main__':
     print(Solution().restoreIpAddresses("123123045"))
