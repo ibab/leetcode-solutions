@@ -17,7 +17,7 @@ public:
             nums.pop_back();
             count++;
         }
-        vector<vector<int>> solutions = subsetsWithDup(nums);
+        vector<vector<int>> solutions = recurse(nums);
         std::cout << solutions.size() << std::endl;
         int n = solutions.size();
         for (int i = 0; i < n; i++) {
