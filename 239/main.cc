@@ -9,13 +9,13 @@ public:
     MaxQueue() {}
 
     void push(const T& x) {
-        int lives = 0;
+        int lifes = 0;
         while (!queue_.empty() && std::get<0>(queue_.back()) < x) {
-            lives += std::get<1>(queue_.back());
-            lives++;
+            lifes += std::get<1>(queue_.back());
+            lifes++;
             queue_.pop_back();
         }
-        queue_.emplace_back(x, lives);
+        queue_.emplace_back(x, lifes);
     }
 
     void pop() {
