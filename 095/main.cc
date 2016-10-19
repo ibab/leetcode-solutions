@@ -1,48 +1,31 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
 class Solution {
 public:
-    vector<TreeNode*> generateTrees(int n) {
-        if (n == 0) {
-            return std::vector<TreeNode*>();
-        }
-        map.clear();
-        return generateTrees(1, n);
-    }
-
-    vector<TreeNode*> generateTrees(int start, int end) {
-        if (start > end) {
-            return {nullptr};
-        }
-        if (map.find(pair<int, int>(start, end)) != map.end()) {
-            return map[{start, end}];
-        }
-        if (start == end) {
-            return {new TreeNode(start)};
-        }
-        vector<TreeNode*> results;
-        for (int i = start; i <= end; i++) {
-            auto smaller = generateTrees(start, i - 1);
-            auto larger = generateTrees(i + 1, end);
-            for (auto& s: smaller) {
-                for (auto& l: larger) {
-                    TreeNode* node = new TreeNode(i);
-                    node->left = s;
-                    node->right = l;
-                    results.push_back(node);
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> data(n, vector<int>(n, 0));
+        int x = 0;
+        int y = 0;
+        int distance = n;
+        int count = 3;
+        vector<pair<int, int>> directions{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int idx = 0;
+        int i = 1;
+        while (distance) {
+            auto p = directions[idx];
+            for (int j = 0; j < distance; j++) {
+                data[x][y] = i;
+                if (j != distance - 1) {
+                  x += p.first;
+                  y += p.second;
+                  i++;
                 }
             }
+            idx = (idx + 1) % 4;
+            count--;
+            if (count == 0) {
+                count = 2;
+                distance--;
+            }
         }
-        map[{start, end}] = results;
-        return results;
+        return data;
     }
-private:
-    std::map<pair<int, int>, vector<TreeNode*>> map;
 };
